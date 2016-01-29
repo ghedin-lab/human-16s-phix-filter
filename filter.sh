@@ -12,7 +12,7 @@ module load sortmerna
 
 fastq="34211-2"
 
-#python interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
+python interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
 
 # command used to index provided rRNA dbs indexdb_rna -m 30000 --ref rfam-5.8s-database-id98.fasta,rfam-5.8s-database-id98.db:rfam-5s-database-id98.fasta,rfam-5s-database-id98.db:silva-arc-16s-id95.fasta,silva-arc-16s-id95.db:silva-arc-23s-id98.fasta,silva-arc-23s-id98.db:silva-bac-16s-id90.fasta,silva-bac-16s-id90.db:silva-bac-23s-id98.fasta,silva-bac-23s-id98.db:silva-euk-18s-id95.fasta,silva-euk-18s-id95.db:silva-euk-28s-id98.fasta,silva-euk-28s-id98.fasta
 
