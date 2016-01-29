@@ -20,6 +20,8 @@ sortDB="/scratch/at120/shared/db/human-16s-for-filtering/sortmerna-db"
 
 sortmerna \
 --otu_map \
+-a 20 \
+-m 4096 \
 --sam \
 --paired_in \
 --aligned $fastq.rRNA \
