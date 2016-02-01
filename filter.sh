@@ -1,19 +1,28 @@
 #!/bin/bash
-#PBS -l walltime=168:00:00,nodes=1:ppn=20,mem=62gb
+#PBS -l walltime=72:00:00,nodes=1:ppn=1,mem=62gb
 #PBS -M twaddlac@gmail.com
 #PBS -m ae
 #PBS -j oe
+
+# run it like this: qsub -v fastq=samplename filter.sh
+# modufy path, exec_path, and '.gz' extension if need be
 
 module load deconseq
 module load prinseq
 module load sortmerna
 module load biopython
 
-#cd $path
+# change this to where your fastq files are
+cd $path
 
 #fastq="34211-2"
 
-python interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
+# set this to the directory where the custom python scripts are located. Will hopefully automate this later
+exec_path="/path/to/executable/directory"
+
+# make sure the fastq files have the naming scheme "sample-name.r1.fastq.gz"
+# these can be uncompressed as well, just remove the .gz below if they are
+python $exec_path/interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
 
 # command used to index provided rRNA dbs indexdb_rna -m 30000 --ref rfam-5.8s-database-id98.fasta,rfam-5.8s-database-id98.db:rfam-5s-database-id98.fasta,rfam-5s-database-id98.db:silva-arc-16s-id95.fasta,silva-arc-16s-id95.db:silva-arc-23s-id98.fasta,silva-arc-23s-id98.db:silva-bac-16s-id90.fasta,silva-bac-16s-id90.db:silva-bac-23s-id98.fasta,silva-bac-23s-id98.db:silva-euk-18s-id95.fasta,silva-euk-18s-id95.db:silva-euk-28s-id98.fasta,silva-euk-28s-id98.fasta
 
@@ -49,8 +58,8 @@ $sortDB/silva-euk-28s-id98.fasta,$sortDB/silva-euk-28s-id98.db
 prinseq-lite.pl \
 -fastq $fastq.non-rRNA.fastq \
 -out_format 3 \
--out_good $fastq.prinseq_good \
--out_bad $fastq.prinseq_bad \
+-out_good $fastq.non-rRNA.prinseq_good \
+-out_bad $fastq.non-rRNA.prinseq_bad \
 -lc_threshold 15 \
 -lc_method dust \
 -no_qual_header \
@@ -63,5 +72,7 @@ prinseq-lite.pl \
 -trim_qual_window 1 \
 -trim_qual_step 1 \
 -trim_qual_rule lt \
--stats_all > $fastq.prinseq.stats.txt
+-stats_all > $fastq.non-rRNA.prinseq.stats.txt
+
+python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.prineq_good.fastq
 
