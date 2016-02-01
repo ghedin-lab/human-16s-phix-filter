@@ -7,10 +7,11 @@
 module load deconseq
 module load prinseq
 module load sortmerna
+module load biopython
 
 #cd $path
 
-fastq="34211-2"
+#fastq="34211-2"
 
 python interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
 
@@ -43,4 +44,24 @@ $sortDB/silva-euk-28s-id98.fasta,$sortDB/silva-euk-28s-id98.db
 #command to index deconseq db: bwa64 index -a bwtsw hg19-silva_16s-phix.fasta
 
 # deconseq doesn't handle paired end data so this will be run last?
-deconseq.pl -f $fastq.non-rRNA.fastq 
+#deconseq.pl -f $fastq.non-rRNA.fastq 
+
+prinseq-lite.pl \
+-fastq $fastq.non-rRNA.fastq \
+-out_format 3 \
+-out_good $fastq.prinseq_good \
+-out_bad $fastq.prinseq_bad \
+-lc_threshold 15 \
+-lc_method dust \
+-no_qual_header \
+-range_len 50,300 \
+-min_qual_mean 25 \
+-ns_max_p 10 \
+-derep 12 \
+-trim_qual_right 20 \
+-trim_qual_type min  \
+-trim_qual_window 1 \
+-trim_qual_step 1 \
+-trim_qual_rule lt \
+-stats_all > $fastq.prinseq.stats.txt
+
