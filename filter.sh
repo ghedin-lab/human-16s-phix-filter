@@ -18,7 +18,7 @@ cd $path
 #fastq="34211-2"
 
 # set this to the directory where the custom python scripts are located. Will hopefully automate this later
-exec_path="/path/to/executable/directory"
+exec_path="/work/at120/human-16s-filter"
 
 # make sure the fastq files have the naming scheme "sample-name.r1.fastq.gz"
 # these can be uncompressed as well, just remove the .gz below if they are
@@ -55,11 +55,15 @@ $sortDB/silva-euk-28s-id98.fasta,$sortDB/silva-euk-28s-id98.db
 # deconseq doesn't handle paired end data so this will be run last?
 #deconseq.pl -f $fastq.non-rRNA.fastq 
 
+perl /scratch/at120/apps/deconseq-standalone-0.4.3/deconseq.pl -i $fastq.non-rRNA.deconseq -f $fastq.non-rRNA.fastq -dbs alans
+
+mv $fastq.non-rRNA.deconseq_clean.fq $fastq.non-rRNA.deconseq_clean.fastq
+
 prinseq-lite.pl \
--fastq $fastq.non-rRNA.fastq \
+-fastq $fastq.non-rRNA.deconseq_clean.fastq \
 -out_format 3 \
--out_good $fastq.non-rRNA.prinseq_good \
--out_bad $fastq.non-rRNA.prinseq_bad \
+-out_good $fastq.non-rRNA.deconseq_clean.prinseq_good \
+-out_bad $fastq.non-rRNA.deconseq_clean.prinseq_bad \
 -lc_threshold 15 \
 -lc_method dust \
 -no_qual_header \
@@ -72,7 +76,7 @@ prinseq-lite.pl \
 -trim_qual_window 1 \
 -trim_qual_step 1 \
 -trim_qual_rule lt \
--stats_all > $fastq.non-rRNA.prinseq.stats.txt
+-stats_all > $fastq.non-rRNA.deconseq_clean.prinseq.stats.txt
 
-python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.prineq_good.fastq
+python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.deconseq_clean.prineq_good.fastq
 
