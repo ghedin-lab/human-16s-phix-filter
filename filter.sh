@@ -13,9 +13,9 @@ module load sortmerna
 module load biopython
 
 # change this to where your fastq files are
-cd $path
+#cd $path
 
-#fastq="34211-2"
+fastq="34211-2"
 
 # set this to the directory where the custom python scripts are located. Will hopefully automate this later
 exec_path="/work/at120/human-16s-filter"
