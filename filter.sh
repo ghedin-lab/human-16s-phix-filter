@@ -55,10 +55,13 @@ $sortDB/silva-euk-28s-id98.fasta,$sortDB/silva-euk-28s-id98.db
 # deconseq doesn't handle paired end data so this will be run last?
 #deconseq.pl -f $fastq.non-rRNA.fastq 
 
-perl $exec_path/deconseq-standalone-0.4.3/deconseq.pl -id $fastq.non-rRNA.deconseq -f $fastq.non-rRNA.fastq -dbs alans
+perl /scratch/at120/apps/deconseq-standalone-0.4.3/deconseq.pl -id $fastq.non-rRNA.deconseq -f $fastq.non-rRNA.fastq -dbs alans
 
 mv $fastq.non-rRNA.deconseq_clean.fq $fastq.non-rRNA.deconseq_clean.fastq
 
+python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.deconseq_clean.fastq $fastq.non-rRNA.deconseq_clean.r1.fastq
+
+:<< 'END'
 prinseq-lite.pl \
 -fastq $fastq.non-rRNA.deconseq_clean.fastq \
 -out_format 3 \
@@ -75,8 +78,8 @@ prinseq-lite.pl \
 -trim_qual_type min  \
 -trim_qual_window 1 \
 -trim_qual_step 1 \
--trim_qual_rule lt \
--stats_all > $fastq.non-rRNA.deconseq_clean.prinseq.stats.txt
+-trim_qual_rule lt
+#-stats_all > $fastq.non-rRNA.deconseq_clean.prinseq.stats.txt
 
 python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.deconseq_clean.prineq_good.fastq
-
+END
