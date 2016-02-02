@@ -15,14 +15,14 @@ module load biopython
 # change this to where your fastq files are
 #cd $path
 
-fastq="test"
+#fastq="test"
 
 # set this to the directory where the custom python scripts are located. Will hopefully automate this later
 exec_path="/work/at120/human-16s-filter"
 
 # make sure the fastq files have the naming scheme "sample-name.r1.fastq.gz"
 # these can be uncompressed as well, just remove the .gz below if they are
-#python $exec_path/interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
+python $exec_path/interleave-fastq.py $fastq.r1.fastq.gz $fastq.r2.fastq.gz > $fastq.interleaved.fastq
 
 # command used to index provided rRNA dbs indexdb_rna -m 30000 --ref rfam-5.8s-database-id98.fasta,rfam-5.8s-database-id98.db:rfam-5s-database-id98.fasta,rfam-5s-database-id98.db:silva-arc-16s-id95.fasta,silva-arc-16s-id95.db:silva-arc-23s-id98.fasta,silva-arc-23s-id98.db:silva-bac-16s-id90.fasta,silva-bac-16s-id90.db:silva-bac-23s-id98.fasta,silva-bac-23s-id98.db:silva-euk-18s-id95.fasta,silva-euk-18s-id95.db:silva-euk-28s-id98.fasta,silva-euk-28s-id98.fasta
 
@@ -59,7 +59,7 @@ perl /scratch/at120/apps/deconseq-standalone-0.4.3/deconseq.pl -id $fastq.non-rR
 
 mv $fastq.non-rRNA.deconseq_clean.fq $fastq.non-rRNA.deconseq_clean.fastq
 
-python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.deconseq_clean.fastq $fastq.non-rRNA.deconseq_clean.r1.fastq
+python $exec_path/extract-paired-reads-from-one-file.py $fastq.non-rRNA.deconseq_clean.fastq $fastq.non-rRNA.deconseq_clean
 
 :<< 'END'
 prinseq-lite.pl \
