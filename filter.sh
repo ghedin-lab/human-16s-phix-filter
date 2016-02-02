@@ -13,7 +13,7 @@ module load sortmerna
 module load biopython
 
 # change this to where your fastq files are
-#cd $path
+cd $path
 
 #fastq="test"
 
