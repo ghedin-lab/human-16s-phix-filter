@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -l walltime=72:00:00,nodes=1:ppn=1,mem=62gb
+#PBS -l walltime=72:00:00,nodes=1:ppn=20,mem=32gb
 #PBS -M twaddlac@gmail.com
 #PBS -m ae
 #PBS -j oe
@@ -13,12 +13,13 @@ module load sortmerna
 module load biopython
 
 # change this to where your fastq files are
+path="/scratch/at120/shared/laura-alan/2015-10-01_C68Y0ACXX-redo/new-filter"
 cd $path
 
 #fastq="test"
 
 # set this to the directory where the custom python scripts are located. Will hopefully automate this later
-exec_path="/work/at120/human-16s-filter"
+exec_path="/scratch/at120/shared/laura-alan/2015-10-01_C68Y0ACXX-redo/new-filter/human-16s-filter"
 
 # make sure the fastq files have the naming scheme "sample-name.r1.fastq.gz"
 # these can be uncompressed as well, just remove the .gz below if they are
