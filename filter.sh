@@ -56,7 +56,8 @@ $sortDB/silva-euk-28s-id98.fasta,$sortDB/silva-euk-28s-id98.db
 # deconseq doesn't handle paired end data so this will be run last?
 #deconseq.pl -f $fastq.non-rRNA.fastq 
 
-perl /scratch/at120/apps/deconseq-standalone-0.4.3/deconseq.pl -id $fastq.non-rRNA.deconseq -f $fastq.non-rRNA.fastq -dbs alans
+# hg_phix for just human and phix (non-RNA-Seq data)
+perl /scratch/at120/apps/deconseq-standalone-0.4.3/deconseq.pl -id $fastq.non-rRNA.deconseq -f $fastq.non-rRNA.fastq -dbs hg_phix_16s
 
 mv $fastq.non-rRNA.deconseq_clean.fq $fastq.non-rRNA.deconseq_clean.fastq
 
